@@ -1,55 +1,104 @@
+// Declaring everything necessary
+const playerText = document.querySelector("#playerText");
+const computerText = document.querySelector("#computerText");
+const resultText = document.querySelector("#resultText");
+const playerScoreText = document.querySelector("#playerScore");
+const computerScoreText = document.querySelector("#computerScore");
+const gameOverText = document.querySelector("#gameOver");
+const buttonChoice = document.querySelectorAll(".button");
+const resetButton = document.querySelector("#reset");
+let computerChoice;
+let playerChoice;
+let result;
+let playerScore = 0;
+let computerScore = 0;
+let buttons = document.getElementsByClassName("button");
 
-// Setting score variables
-let playerScore = 0
-let computerScore = 0
 
 
-
-// This function assigns the computer's choice of rock, paper, or scissors
-function getComputerChoice() {
-    const number = Math.floor(Math.random() * 1000);
-    if (number % 3 === 0) {
-            return 'rock';
+// Reset button functionality
+resetButton.addEventListener("click", () => {
+    playerScore = 0;
+    computerScore = 0;
+    gameOverText.textContent= ``;
+    playerText.textContent = `Player : `;
+    computerText.textContent = `Computer : `;
+    resultText.textContent = `Result : `;
+    playerScoreText.textContent= `Player Score : ${playerScore}`;
+    computerScoreText.textContent= `Computer Score : ${computerScore}`;
+    for(var i = 0; i < buttons.length; i++) {
+        buttons[i].disabled = false;
     }
-    if (number % 3 === 1) {
-            return 'paper';
+})
+
+// Game over function that disables the game if someone reaches 5 wins
+function gameOverCheck(){
+    if (playerScore == 5) {
+        gameOverText.textContent= `GAME OVER, PLAYER WINS`;
+        for(var i = 0; i < buttons.length; i++) {
+            buttons[i].disabled = true;
+        }
+
     }
-    return 'scissors';
+    else if (computerScore == 5) {
+        gameOverText.textContent= `GAME OVER, COMPUTER WINS`;
+        for(var i = 0; i < buttons.length; i++) {
+            buttons[i].disabled = true;
+        }
+
+    }
+    else {
+        return;
+    }
 }
 
-function play() {
-    while (playerScore < 5 || computerScore < 5) {
-    let userPrompt = prompt("Please input either rock, paper, or scissors");
-    userSelection = userPrompt.toLowerCase();
-    let computerSelection = getComputerChoice();
-    
-    if (userSelection == computerSelection) {
-        console.log('Tie!');
-    }
-    else if (userSelection == 'rock' && computerSelection == 'scissors' ||
-        userSelection == 'scissors' && computerSelection == 'paper' ||
-        userSelection == 'paper' && computerSelection == 'rock') {
-        playerScore += 1;
-        console.log('You won this round! ' + userSelection + ' beats ' + computerSelection)
+// This function determines the computers random choice
+function computerTurn(){
+    const randNum = Math.floor(Math.random() * 3) + 1;
 
-        if (playerScore == 5) {
-            console.log('You win!')
-            return
-        }
+    switch(randNum){
+        case 1:
+            computerChoice = "rock";
+            break;
+        case 2:
+            computerChoice = "paper";
+            break;
+        case 3:
+            computerChoice = "scissors";
+            break;
+    }
+}
+
+// This function plays out the round
+function playRound() {
+    if (playerChoice == computerChoice) {
+        resultText.textContent = `Result : Tie!`;
+    }
+    else if (playerChoice == 'rock' && computerChoice == 'scissors' ||
+             playerChoice == 'paper' && computerChoice == 'rock' ||
+             playerChoice == 'scissors' && computerChoice == 'paper') {
+        resultText.textContent = `Result : Win! ${playerChoice} beats ${computerChoice}`;
+        playerScore += 1;
+        playerScoreText.textContent= `Player Score : ${playerScore}`;
+        gameOverCheck()
     }
 
     else {
+        resultText.textContent = `Result : Lose! ${computerChoice} beats ${playerChoice}`;
         computerScore += 1;
-        console.log('You lost this round! ' + computerSelection + ' beats ' + userSelection)
-
-        if (computerScore == 5) {
-            console.log('You lose!')
-            return
-        }
+        computerScoreText.textContent= `Computer Score : ${computerScore}`;
+        gameOverCheck()
     }
 }
-}
 
-play();
-console.log('Your score: ' + playerScore)
-console.log('Computers score: ' + computerScore)
+
+// Event listener for when the player chooses an option, plays the round.
+buttonChoice.forEach(button => button.addEventListener("click", () => {
+    playerChoice = button.textContent;
+    computerTurn();
+    playerText.textContent = `Player : ${playerChoice}`;
+    computerText.textContent = `Computer : ${computerChoice}`;
+    playerScoreText.textContent= `Player Score : ${playerScore}`;
+    computerScoreText.textContent= `Computer Score : ${computerScore}`;
+    playRound();
+}));
