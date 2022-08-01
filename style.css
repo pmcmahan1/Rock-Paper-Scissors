@@ -1,14 +1,50 @@
 body {
-    background-color: lightblue
+    background-color: lightblue;
 }
 
-.buttons {
+.selections{
     display: flex;
-    justify-content: center;
     gap: 50px;
-    ;
 }
 
+.button {
+    background-color: darkblue;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+  }
+
+#reset {
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
 .button:hover{
-    transform: scale(1.2);
+    transform: scale(1.1);
+}
+
+#reset:hover{
+    transform: scale(1.1);
+}
+
+
+#div{
+    background-color: antiquewhite;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 100px;
+    padding: 50px;
+    border-style: solid;
+    gap: 20px;
 }
