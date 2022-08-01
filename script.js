@@ -14,6 +14,8 @@ let playerScore = 0;
 let computerScore = 0;
 let buttons = document.getElementsByClassName("button");
 
+
+
 // Reset button functionality
 resetButton.addEventListener("click", () => {
     playerScore = 0;
@@ -67,31 +69,20 @@ function computerTurn(){
     }
 }
 
-// This longer then necessary function plays out the round
+// This function plays out the round
 function playRound() {
     if (playerChoice == computerChoice) {
         resultText.textContent = `Result : Tie!`;
     }
-    else if (playerChoice == 'rock' && computerChoice == 'scissors') {
+    else if (playerChoice == 'rock' && computerChoice == 'scissors' ||
+             playerChoice == 'paper' && computerChoice == 'rock' ||
+             playerChoice == 'scissors' && computerChoice == 'paper') {
         resultText.textContent = `Result : Win! ${playerChoice} beats ${computerChoice}`;
         playerScore += 1;
         playerScoreText.textContent= `Player Score : ${playerScore}`;
         gameOverCheck()
+    }
 
-    }
-    else if (playerChoice == 'paper' && computerChoice == 'rock') {
-        resultText.textContent = `Result : Win! ${playerChoice} beats ${computerChoice}`;
-        playerScore += 1;
-        playerScoreText.textContent= `Player Score : ${playerScore}`;
-        gameOverCheck()
-
-    }
-    else if (playerChoice == 'scissors' && computerChoice == 'paper') {
-        resultText.textContent = `Result : Win! ${playerChoice} beats ${computerChoice}`;
-        playerScore += 1;
-        playerScoreText.textContent= `Player Score : ${playerScore}`;
-        gameOverCheck()
-    }
     else {
         resultText.textContent = `Result : Lose! ${computerChoice} beats ${playerChoice}`;
         computerScore += 1;
@@ -103,7 +94,6 @@ function playRound() {
 
 // Event listener for when the player chooses an option, plays the round.
 buttonChoice.forEach(button => button.addEventListener("click", () => {
-
     playerChoice = button.textContent;
     computerTurn();
     playerText.textContent = `Player : ${playerChoice}`;
@@ -112,6 +102,3 @@ buttonChoice.forEach(button => button.addEventListener("click", () => {
     computerScoreText.textContent= `Computer Score : ${computerScore}`;
     playRound();
 }));
-
-
-
